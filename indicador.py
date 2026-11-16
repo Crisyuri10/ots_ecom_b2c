@@ -285,7 +285,8 @@ def grafico_barras_pct(tabela, nome_periodo):
     # Alerta acima do total: período que já passou e ainda tem pedido em aberto (meta vencida, não faturado).
     # Amarelo mais escuro que o da barra, para ser lido no fundo branco.
     vencidos = tabela[tabela["vencido"] & (tabela["em_aberto"] > 0)].copy()
-    vencidos["alerta"] = "⚠ " + vencidos["em_aberto"].map(numero) + " em aberto"
+    # Lista (e não soma de colunas): funciona também quando nenhum período tem alerta (tabela vazia)
+    vencidos["alerta"] = [f"⚠ {numero(n)} em aberto" for n in vencidos["em_aberto"]]
     rotulo_alerta = (
         alt.Chart(vencidos)
         .mark_text(dy=-24, color="#B7891F", fontSize=11, fontWeight="bold")
