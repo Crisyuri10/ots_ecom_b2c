@@ -78,7 +78,11 @@ CORES = {"OTS sim": "#6DBB84", "OTS não": "#C62828", "Em aberto": "#ECC354"}
 # Texto do percentual nos cards: branco no verde e no vermelho, escuro no amarelo (branco não seria lido)
 TEXTO_PERCENTUAL = {"OTS sim": "#FFFFFF", "OTS não": "#FFFFFF", "Em aberto": "#5C4300"}
 ALTURA_KPI = 140  # px, todos os cards iguais (com ou sem percentual embaixo)
-IMAGEM_FAIXA = os.path.join(PASTA, "imagens", "mercado_livre.png")  # opcional: sem o arquivo, a faixa fica sem imagem
+# Logo da faixa: procura em imagens/ e, se não achar, ao lado deste arquivo. Sem o arquivo, a faixa fica sem imagem
+IMAGEM_FAIXA = next(
+    (c for c in (os.path.join(PASTA, "imagens", "mercado_livre.png"), os.path.join(PASTA, "mercado_livre.png")) if os.path.exists(c)),
+    "",
+)
 # A faixa usa o mesmo amarelo do fundo da imagem (#FFE700) para o logo se misturar com ela
 
 st.set_page_config(layout="wide")
@@ -91,9 +95,6 @@ st.markdown(
     .st-key-faixa h1 { margin:0; padding:0; color:#2D3277; font-size:2.2rem; }
     .st-key-faixa label p { color:#2D3277; font-weight:600; }
     .st-key-faixa .periodo-dados { color:#2D3277; font-size:0.95rem; }
-    /* Item marcado e campo em foco no azul do logo, no lugar do vermelho padrão do Streamlit */
-    .st-key-faixa label[data-baseweb="radio"]:has(input:checked) > div:first-child { background-color:#2D3277 !important; }
-    .st-key-faixa [data-baseweb="select"] > div:focus-within { border-color:#2D3277 !important; }
     </style>
     """,
     unsafe_allow_html=True,
